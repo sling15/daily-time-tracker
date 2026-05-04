@@ -81,20 +81,20 @@ function makeEntryId() {
   return `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-function loadOnlineEntries() {
-  return new Promise((resolve, reject) => {
-    const callbackName = `timeTrackerCallback${Date.now()}`;
-    const script = document.createElement("script");
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error("Online storage did not respond."));
-    }, 12000);
+function normalizeEntry(entry) {
+  return {
+    ...entry,
+    id: String(entry.id || makeEntryId()),
+    date: normalizeDateValue(entry.date),
+    task: String(entry.task || ""),
+    category: String(entry.category || "Work"),
+    start: String(entry.start || ""),
+    end: String(entry.end || ""),
+    notes: String(entry.notes || ""),
+    minutes: Number(entry.minutes) || 0,
+    createdAt: String(entry.createdAt || new Date().toISOString()),
+  };
+}
 
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[callbackName];
-      script.remove();
-    }
-
-    window[callbackName] = (response) => {
-      cleanup();
+function mergeEntries(localEntries, onlineEntries) {
+  const merged = new Map();
