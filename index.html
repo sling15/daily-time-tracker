@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Time Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="topbar" aria-label="Daily overview">
+      <div>
+        <p class="eyebrow">Daily Time Tracker</p>
+        <h1 id="dayTitle">Today</h1>
+      </div>
+      <div class="day-picker">
+        <button class="icon-btn" id="prevDay" type="button" aria-label="Previous day" title="Previous day">&lsaquo;</button>
+        <input id="selectedDate" type="date">
+        <button class="icon-btn" id="nextDay" type="button" aria-label="Next day" title="Next day">&rsaquo;</button>
+      </div>
+    </section>
+
+    <section class="summary-band" aria-label="Summary">
+      <div>
+        <span class="label">Tracked</span>
+        <strong id="totalTime">0h 00m</strong>
+      </div>
+      <div>
+        <span class="label">Entries</span>
+        <strong id="entryCount">0</strong>
+      </div>
+      <div>
+        <span class="label">Top category</span>
+        <strong id="topCategory">None</strong>
+      </div>
+    </section>
+
+    <section class="timer-panel" aria-label="Running timer">
+      <div class="timer-readout">
+        <span id="timerStatus">Ready to track</span>
+        <strong id="timerDisplay">00:00:00</strong>
+      </div>
+      <div class="timer-form">
+        <input id="timerTask" type="text" placeholder="What are you doing?">
+        <select id="timerCategory" aria-label="Timer category">
+          <option>Work</option>
+          <option>Admin</option>
+          <option>Meeting</option>
+          <option>Support</option>
+          <option>Travel</option>
+          <option>Personal</option>
+        </select>
+        <button id="startTimer" type="button">Start</button>
+        <button id="stopTimer" class="secondary" type="button" disabled>Stop & Save</button>
+      </div>
+    </section>
+
+    <section class="entry-layout">
+      <form class="entry-form" id="entryForm">
+        <h2>Add time manually</h2>
+        <label>
+          What did you do?
+          <input id="taskInput" type="text" placeholder="e.g. Fixed printer issue in lab" required>
+        </label>
+        <div class="form-grid">
+          <label>
+            Category
+            <select id="categoryInput">
+              <option>Work</option>
+              <option>Admin</option>
+              <option>Meeting</option>
+              <option>Support</option>
+              <option>Travel</option>
+              <option>Personal</option>
+            </select>
+          </label>
+          <label>
+            Start
+            <input id="startInput" type="time" required>
+          </label>
+          <label>
+            End
+            <input id="endInput" type="time" required>
+          </label>
+        </div>
+        <label>
+          Notes
+          <textarea id="notesInput" rows="4" placeholder="Add details you may want to remember later"></textarea>
+        </label>
+        <button type="submit">Add Entry</button>
+      </form>
+
+      <section class="activity-panel" aria-label="Activity list">
+        <div class="activity-tools">
+          <h2>What happened today</h2>
+          <div class="tool-row">
+            <input id="searchInput" type="search" placeholder="Search entries">
+            <button id="exportCsv" class="secondary" type="button">Export CSV</button>
+            <button id="exportMonthlyDocx" type="button">Monthly Word Report</button>
+          </div>
+        </div>
+        <div id="emptyState" class="empty-state">
+          <strong>No time logged yet.</strong>
+          <span>Add your first entry or start the timer when you begin a task.</span>
+        </div>
+        <div id="entryList" class="entry-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <template id="entryTemplate">
+    <article class="entry-card">
+      <div class="entry-main">
+        <div>
+          <span class="category"></span>
+          <h3></h3>
+          <p></p>
+        </div>
+        <strong class="duration"></strong>
+      </div>
+      <div class="entry-meta">
+        <span class="time-range"></span>
+        <button class="delete-btn" type="button">Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
