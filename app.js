@@ -73,6 +73,14 @@ function saveEntries() {
   localStorage.setItem(storageKey, JSON.stringify(entries));
 }
 
+function makeEntryId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID();
+  }
+
+  return `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
 function loadOnlineEntries() {
   return new Promise((resolve, reject) => {
     const callbackName = `timeTrackerCallback${Date.now()}`;
@@ -90,10 +98,3 @@ function loadOnlineEntries() {
 
     window[callbackName] = (response) => {
       cleanup();
-      resolve(response.entries || []);
-    };
-
-    script.onerror = () => {
-      cleanup();
-      reject(new Error("Could not load online entries."));
-    };
